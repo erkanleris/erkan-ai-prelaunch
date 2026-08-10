@@ -1,0 +1,321 @@
+@import "tailwindcss";
+
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-electric: var(--electric);
+  --color-sky: var(--sky);
+  --color-violet-brand: var(--violet-brand);
+  --font-sans: "Cairo", system-ui, sans-serif;
+  --font-display: "Orbitron", "Cairo", sans-serif;
+}
+
+/* ERKAN AI — Dark Premium Palette
+   خلفية كحلية عميقة #050914 + أزرق كهربائي + سماوي + بنفسجي */
+:root {
+  --radius: 0.85rem;
+  --background: oklch(0.155 0.022 264);
+  --foreground: oklch(0.93 0.015 240);
+  --card: oklch(0.2 0.03 265);
+  --card-foreground: oklch(0.93 0.015 240);
+  --popover: oklch(0.2 0.03 265);
+  --popover-foreground: oklch(0.93 0.015 240);
+  --primary: oklch(0.62 0.2 262);
+  --primary-foreground: oklch(0.98 0.01 240);
+  --secondary: oklch(0.28 0.05 270);
+  --secondary-foreground: oklch(0.9 0.02 240);
+  --muted: oklch(0.24 0.035 265);
+  --muted-foreground: oklch(0.68 0.03 255);
+  --accent: oklch(0.32 0.06 275);
+  --accent-foreground: oklch(0.95 0.01 240);
+  --destructive: oklch(0.6 0.2 25);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.65 0.19 265);
+  --chart-1: oklch(0.75 0.14 230);
+  --chart-2: oklch(0.65 0.2 262);
+  --chart-3: oklch(0.58 0.22 285);
+  --chart-4: oklch(0.5 0.18 280);
+  --chart-5: oklch(0.42 0.15 270);
+  --sidebar: oklch(0.2 0.03 265);
+  --sidebar-foreground: oklch(0.93 0.015 240);
+  --sidebar-primary: oklch(0.62 0.2 262);
+  --sidebar-primary-foreground: oklch(0.98 0.01 240);
+  --sidebar-accent: oklch(0.32 0.06 275);
+  --sidebar-accent-foreground: oklch(0.95 0.01 240);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.65 0.19 265);
+  /* Brand accents */
+  --electric: oklch(0.65 0.24 262);
+  --sky: oklch(0.8 0.12 225);
+  --violet-brand: oklch(0.6 0.24 292);
+}
+
+.dark {
+  --background: oklch(0.155 0.022 264);
+  --foreground: oklch(0.93 0.015 240);
+  --card: oklch(0.2 0.03 265);
+  --card-foreground: oklch(0.93 0.015 240);
+  --popover: oklch(0.2 0.03 265);
+  --popover-foreground: oklch(0.93 0.015 240);
+  --primary: oklch(0.62 0.2 262);
+  --primary-foreground: oklch(0.98 0.01 240);
+  --secondary: oklch(0.28 0.05 270);
+  --secondary-foreground: oklch(0.9 0.02 240);
+  --muted: oklch(0.24 0.035 265);
+  --muted-foreground: oklch(0.68 0.03 255);
+  --accent: oklch(0.32 0.06 275);
+  --accent-foreground: oklch(0.95 0.01 240);
+  --destructive: oklch(0.6 0.2 25);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.65 0.19 265);
+  --chart-1: oklch(0.75 0.14 230);
+  --chart-2: oklch(0.65 0.2 262);
+  --chart-3: oklch(0.58 0.22 285);
+  --chart-4: oklch(0.5 0.18 280);
+  --chart-5: oklch(0.42 0.15 270);
+  --sidebar: oklch(0.2 0.03 265);
+  --sidebar-foreground: oklch(0.93 0.015 240);
+  --sidebar-primary: oklch(0.62 0.2 262);
+  --sidebar-primary-foreground: oklch(0.98 0.01 240);
+  --sidebar-accent: oklch(0.32 0.06 275);
+  --sidebar-accent-foreground: oklch(0.95 0.01 240);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.65 0.19 265);
+  --electric: oklch(0.65 0.24 262);
+  --sky: oklch(0.8 0.12 225);
+  --violet-brand: oklch(0.6 0.24 292);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Cairo", system-ui, sans-serif;
+    background-color: #050914;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+  ::selection {
+    background: oklch(0.6 0.2 275 / 35%);
+    color: #fff;
+  }
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: 1280px;
+    }
+  }
+}
+
+/* ---------- ERKAN AI custom styles ---------- */
+
+.font-display {
+  font-family: "Orbitron", "Cairo", sans-serif;
+  letter-spacing: 0.06em;
+}
+
+/* Gradient text synced with the logo */
+.text-gradient-brand {
+  background: linear-gradient(120deg, #7dd3fc 0%, #3b82f6 40%, #8b5cf6 75%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Glassmorphism card */
+.glass-card {
+  background: oklch(0.22 0.035 265 / 55%);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid oklch(1 0 0 / 9%);
+  box-shadow:
+    0 8px 40px oklch(0 0 0 / 45%),
+    inset 0 1px 0 oklch(1 0 0 / 7%);
+}
+
+/* Primary glow button */
+.btn-glow {
+  position: relative;
+  background: linear-gradient(120deg, #2563eb, #6d28d9);
+  box-shadow:
+    0 0 24px oklch(0.55 0.22 270 / 45%),
+    0 4px 16px oklch(0 0 0 / 35%);
+  transition:
+    transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 200ms cubic-bezier(0.23, 1, 0.32, 1),
+    filter 200ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.btn-glow:hover {
+  filter: brightness(1.12);
+  box-shadow:
+    0 0 36px oklch(0.6 0.24 270 / 55%),
+    0 6px 24px oklch(0 0 0 / 40%);
+}
+.btn-glow:active {
+  transform: scale(0.97);
+}
+.btn-glow:disabled {
+  opacity: 0.55;
+  filter: grayscale(30%);
+}
+
+/* Secondary ghost button */
+.btn-ghost-brand {
+  border: 1px solid oklch(1 0 0 / 15%);
+  background: oklch(0.28 0.05 270 / 35%);
+  backdrop-filter: blur(8px);
+  transition:
+    transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
+    background 200ms cubic-bezier(0.23, 1, 0.32, 1),
+    border-color 200ms;
+}
+.btn-ghost-brand:hover {
+  background: oklch(0.32 0.06 272 / 50%);
+  border-color: oklch(0.65 0.19 265 / 45%);
+}
+.btn-ghost-brand:active {
+  transform: scale(0.97);
+}
+
+/* Input field premium style */
+.field-premium {
+  background: oklch(0.17 0.03 265 / 70%);
+  border: 1px solid oklch(1 0 0 / 11%);
+  color: oklch(0.93 0.015 240);
+  transition:
+    border-color 200ms cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 200ms cubic-bezier(0.23, 1, 0.32, 1),
+    background 200ms;
+}
+.field-premium::placeholder {
+  color: oklch(0.55 0.03 255);
+}
+.field-premium:focus {
+  border-color: oklch(0.65 0.19 265 / 70%);
+  box-shadow: 0 0 0 3px oklch(0.6 0.22 270 / 18%), 0 0 18px oklch(0.55 0.2 270 / 15%);
+  background: oklch(0.19 0.035 265 / 80%);
+  outline: none;
+}
+
+/* Soft animated glow orbs (background ambience) */
+@keyframes orb-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(24px, -18px) scale(1.05); }
+  66% { transform: translate(-16px, 14px) scale(0.96); }
+}
+.orb-drift {
+  animation: orb-drift 14s ease-in-out infinite;
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+/* Pulse dot for live states */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+.pulse-dot {
+  animation: pulse-dot 1.8s ease-in-out infinite;
+}
+
+/* Success checkmark draw */
+@keyframes check-draw {
+  from { stroke-dashoffset: 60; }
+  to { stroke-dashoffset: 0; }
+}
+.check-draw {
+  stroke-dasharray: 60;
+  animation: check-draw 700ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb-drift, .float-slow, .pulse-dot, .check-draw {
+    animation: none;
+  }
+  html { scroll-behavior: auto; }
+}

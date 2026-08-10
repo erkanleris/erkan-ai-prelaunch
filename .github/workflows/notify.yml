@@ -1,0 +1,35 @@
+name: ERKAN Registration Email Notification
+
+on:
+  repository_dispatch:
+    types: [erkna_registration]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Send registration notification via Gmail SMTP
+        uses: dawidd6/action-send-mail@v4
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          secure: false
+          username: ${{ secrets.SMTP_USER }}
+          password: ${{ secrets.SMTP_PASS }}
+          subject: "🎉 تسجيل جديد في ERKAN AI — ${{ github.event.client_payload.full_name }}"
+          from: "ERKAN AI <${{ secrets.SMTP_USER }}>"
+          to: ${{ secrets.SMTP_USER }}
+          body: |
+            تسجيل مسبق جديد في موقع ERKAN AI
+
+            الاسم الكامل: ${{ github.event.client_payload.full_name }}
+            البريد الإلكتروني: ${{ github.event.client_payload.email }}
+            العمر: ${{ github.event.client_payload.age }}
+            المهنة: ${{ github.event.client_payload.profession }}
+            اسم المستخدم: @${{ github.event.client_payload.username }}
+            تاريخ التسجيل: ${{ github.event.client_payload.submittedAt }}
+
+            يمكنك متابعة جميع التسجيلات من GitHub Actions logs.
+          convert_markdown: false
