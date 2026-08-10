@@ -6,6 +6,11 @@ import * as db from "./db";
 import type { TrpcContext } from "./_core/context";
 
 vi.mock("./db");
+vi.mock("./emailService", () => ({
+  sendWelcomeEmail: vi.fn().mockResolvedValue({ sent: true }),
+}));
+
+import { sendWelcomeEmail } from "./emailService";
 
 function createContext(): TrpcContext {
   return {
@@ -72,6 +77,75 @@ describe("registration.registerUser", () => {
     expect(res.username).toBe("ahmed_dev");
     expect(res.registrationId).toMatch(/^ERKAN-[A-Z0-9]{5}$/);
     expect(db.createRegistration).toHaveBeenCalledOnce();
+  });
+
+  it("sends welcome email after successful registration", async () => {
+    vi.mocked(db.usernameExists).mockResolvedValue(false);
+    vi.mocked(db.emailExists).mockResolvedValue(false);
+    vi.mocked(db.registrationById).mockResolvedValue(undefined);
+    vi.mocked(db.createRegistration).mockResolvedValue(undefined);
+
+    const caller = appRouter.createCaller(createContext());
+    const res = await caller.registration.registerUser(validInput);
+
+    expect(sendWelcomeEmail).toHaveBeenCalledOnce();
+    expect(sendWelcomeEmail).toHaveBeenCalledWith(
+      expect.objectContaining({
+        to: validInput.email,
+        email: validInput.email,
+        fullName: validInput.fullName,
+        age: validInput.age,
+        profession: validInput.profession,
+        username: "ahmed_dev",
+        registrationId: res.registrationId,
+      })
+    );
+  });
+
+  it("still succeeds when welcome email sending fails", async () => {
+    vi.mocked(db.usernameExists).mockResolvedValue(false);
+    vi.mocked(db.emailExists).mockResolvedValue(false);
+    vi.mocked(db.registrationById).mockResolvedValue(undefined);
+    vi.mocked(db.createRegistration).mockResolvedValue(undefined);
+    vi.mocked(sendWelcomeEmail).mockRejectedValueOnce(new Error("SMTP down"));
+
+    const caller = appRouter.createCaller(createContext());
+    const res = await caller.registration.registerUser(validInput);
+
+    expect(res.success).toBe(true);
+    expect(res.registrationId).toMatch(/^ERKAN-[A-Z0-9]{5}$/);
+  });
+
+  it("marks emailSent=true in database after successful email", async () => {
+    vi.mocked(db.usernameExists).mockResolvedValue(false);
+    vi.mocked(db.emailExists).mockResolvedValue(false);
+    vi.mocked(db.registrationById).mockResolvedValue(undefined);
+    vi.mocked(db.createRegistration).mockResolvedValue(undefined);
+    vi.mocked(db.setEmailSent).mockResolvedValue(undefined);
+    vi.mocked(sendWelcomeEmail).mockResolvedValue({ sent: true });
+
+    const caller = appRouter.createCaller(createContext());
+    await caller.registration.registerUser(validInput);
+
+    expect(db.setEmailSent).toHaveBeenCalledOnce();
+    expect(db.setEmailSent).toHaveBeenCalledWith(
+      expect.stringMatching(/^ERKAN-[A-Z0-9]{5}$/)
+    );
+  });
+
+  it("does not mark emailSent when email sending fails", async () => {
+    vi.mocked(db.usernameExists).mockResolvedValue(false);
+    vi.mocked(db.emailExists).mockResolvedValue(false);
+    vi.mocked(db.registrationById).mockResolvedValue(undefined);
+    vi.mocked(db.createRegistration).mockResolvedValue(undefined);
+    vi.mocked(db.setEmailSent).mockResolvedValue(undefined);
+    vi.mocked(sendWelcomeEmail).mockResolvedValue({ sent: false, error: "SMTP down" });
+
+    const caller = appRouter.createCaller(createContext());
+    const res = await caller.registration.registerUser(validInput);
+
+    expect(res.success).toBe(true);
+    expect(db.setEmailSent).not.toHaveBeenCalled();
   });
 
   it("rejects duplicate email", async () => {

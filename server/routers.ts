@@ -6,6 +6,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { RATE_LIMIT_WINDOWS } from "./rateLimitState";
+import { sendWelcomeEmail } from "./emailService";
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 10;
 
@@ -113,6 +114,37 @@ export const appRouter = router({
         registrationId,
         status: "active",
       });
+
+      // إرسال رسالة ترحيب تلقائية — فشل الإرسال لا يمنع التسجيل
+      const dateAr = new Date().toLocaleDateString("ar-EG", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+      let emailSent = false;
+      try {
+        const result = await sendWelcomeEmail({
+          to: input.email,
+          fullName: input.fullName,
+          email: input.email,
+          age: input.age,
+          profession: input.profession,
+          username: input.username,
+          registrationId,
+          dateAr,
+        });
+        emailSent = result.sent;
+        if (result.sent) {
+          await db.setEmailSent(registrationId);
+        }
+      } catch (err) {
+        // تسجيل الخطأ فقط؛ التسجيل نفسه تم بنجاح
+        console.error(
+          "[Email] Welcome email failed for registration:",
+          registrationId,
+          err
+        );
+      }
 
       return { success: true, username: input.username, registrationId } as const;
     }),

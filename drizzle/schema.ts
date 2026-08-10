@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { boolean, int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -38,6 +38,7 @@ export const registrations = mysqlTable("registrations", {
   username: varchar("username", { length: 10 }).notNull().unique(),
   registrationId: varchar("registrationId", { length: 16 }).notNull().unique(),
   status: mysqlEnum("status", ["active", "cancelled"]).default("active").notNull(),
+  emailSent: boolean("emailSent").default(false).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 

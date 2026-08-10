@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Rocket, Users } from "lucide-react";
 import { trpc } from "@/lib/trpc";
-import { LAUNCH_DATE } from "@/lib/siteConfig";
+import { BASE_REGISTERED_COUNT, LAUNCH_DATE } from "@/lib/siteConfig";
 
 function useCountdown(target: Date) {
   const [now, setNow] = useState(() => Date.now());
@@ -32,7 +32,8 @@ function TimeUnit({ value, label }: { value: number; label: string }) {
 export default function EarlyAccess() {
   const { days, hours, minutes, seconds } = useCountdown(LAUNCH_DATE);
   const { data: countData } = trpc.registration.getCount.useQuery();
-  const count = countData?.count ?? 0;
+  const realCount = countData?.count ?? 0;
+  const count = BASE_REGISTERED_COUNT + realCount;
 
   return (
     <section id="early-access" className="relative z-10 px-4 py-24">

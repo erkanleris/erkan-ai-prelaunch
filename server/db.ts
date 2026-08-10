@@ -129,6 +129,12 @@ export async function registrationCount() {
   return rows[0]?.value ?? 0;
 }
 
+export async function setEmailSent(registrationId: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  await db.update(registrations).set({ emailSent: true }).where(eq(registrations.registrationId, registrationId));
+}
+
 export async function registrationById(registrationId: string) {
   const db = await getDb();
   if (!db) throw new Error("Database unavailable");
