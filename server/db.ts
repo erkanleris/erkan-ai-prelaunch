@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { and, count, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertRegistration, InsertUser, registrations, users } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,53 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// ---------- Pre-launch registrations ----------
+
+export async function usernameExists(username: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  const rows = await db
+    .select()
+    .from(registrations)
+    .where(eq(registrations.username, username.toLowerCase()))
+    .limit(1);
+  return rows.length > 0;
+}
+
+export async function emailExists(email: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  const rows = await db
+    .select()
+    .from(registrations)
+    .where(eq(registrations.email, email.toLowerCase()))
+    .limit(1);
+  return rows.length > 0;
+}
+
+export async function createRegistration(reg: InsertRegistration) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  await db.insert(registrations).values(reg);
+}
+
+export async function registrationCount() {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  const rows = await db
+    .select({ value: count() })
+    .from(registrations)
+    .where(eq(registrations.status, "active"));
+  return rows[0]?.value ?? 0;
+}
+
+export async function registrationById(registrationId: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  const rows = await db
+    .select({ id: registrations.id, status: registrations.status })
+    .from(registrations)
+    .where(and(eq(registrations.registrationId, registrationId), eq(registrations.status, "active")))
+    .limit(1);
+  return rows[0];
+}

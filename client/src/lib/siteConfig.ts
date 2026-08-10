@@ -1,0 +1,28 @@
+/**
+ * الإعدادات المركزية لموقع ERKAN AI
+ * عدّل القيم من هذا الملف فقط — لا حاجة لتعديل أي ملف آخر.
+ */
+
+/** تاريخ ووقت الإطلاق الرسمي (UTC) — عدّل هذا التاريخ لتغيير العداد التنازلي */
+export const LAUNCH_DATE = new Date("2026-09-15T00:00:00Z");
+
+/** رابط الشعار الرسمي */
+export const LOGO_URL = "/manus-storage/erkan-logo_3a933153.png";
+
+/** النصوص الأساسية — سهلة التعديل لإضافة الإنجليزية لاحقاً */
+export const SITE = {
+  name: "ERKAN AI",
+  taglineEn: "ERKAN AI IS COMING",
+  taglineAr: "الذكاء الاصطناعي... بطريقتك.",
+  description:
+    "احجز مكانك قبل الإطلاق، واختر اسم المستخدم الخاص بك قبل الجميع.",
+  footerTagline: "Built for the next generation.",
+  socialShareText: "حجزت مقعدي في ERKAN AI قبل الإطلاق! انضم الآن:",
+  shareUrlFallback: "",
+};
+
+export const USERNAME_REGEX = /^[A-Za-z0-9_]+$/;
+export const USERNAME_MIN = 3;
+export const USERNAME_MAX = 10;
+export const AGE_MIN = 13;
+export const AGE_MAX = 120;

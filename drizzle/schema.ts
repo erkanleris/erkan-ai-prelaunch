@@ -25,4 +25,21 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
-// TODO: Add your tables here
+/**
+ * جدول التسجيلات المسبقة — ERKAN AI Pre-Launch
+ * بيانات المستخدمين محفوظة بأمان ولا تُعرض للعامة.
+ */
+export const registrations = mysqlTable("registrations", {
+  id: int("id").autoincrement().primaryKey(),
+  fullName: varchar("fullName", { length: 60 }).notNull(),
+  email: varchar("email", { length: 320 }).notNull().unique(),
+  age: int("age").notNull(),
+  profession: varchar("profession", { length: 60 }).notNull(),
+  username: varchar("username", { length: 10 }).notNull().unique(),
+  registrationId: varchar("registrationId", { length: 16 }).notNull().unique(),
+  status: mysqlEnum("status", ["active", "cancelled"]).default("active").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type Registration = typeof registrations.$inferSelect;
+export type InsertRegistration = typeof registrations.$inferInsert;
